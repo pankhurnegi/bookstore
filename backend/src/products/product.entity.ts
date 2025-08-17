@@ -8,6 +8,8 @@ export interface ProductCreationAttributes {
     price: number;
     available: boolean;
     category: string;
+    imageUrl?: string;
+
 }
 
 @Table({ tableName: 'products' })
@@ -48,4 +50,11 @@ export class Product extends Model<Product, ProductCreationAttributes> {
         allowNull: false,
     })
     category: string;
+
+    @Column({
+        type: DataType.STRING,
+        allowNull: true,
+    })
+    imageUrl!: string;
+
 }
