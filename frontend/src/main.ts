@@ -7,6 +7,7 @@ import { ToastrModule } from 'ngx-toastr';
 import { provideRouter } from '@angular/router';
 import { Signup } from './app/auth/signup/signup';
 import { Login } from './app/auth/login/login';
+import { Products } from './app/products/products';
 bootstrapApplication(AppComponent, {
     providers: [
         importProvidersFrom(
@@ -17,6 +18,7 @@ bootstrapApplication(AppComponent, {
         provideRouter([
             { path: 'signup', component: Signup },
             { path: 'login', component: Login },
+            { path: 'products', component: Products },
             { path: '', redirectTo: '/login', pathMatch: 'full' }
         ])
     ],

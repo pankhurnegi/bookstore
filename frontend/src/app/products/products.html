@@ -1,0 +1,21 @@
+<h2>Book List</h2>
+
+<div *ngIf="loading">Loading...</div>
+<div *ngIf="!loading && products.length === 0">No books found.</div>
+<div *ngIf="!loading && products.length > 0">
+    <div *ngFor="let product of products" class="book">
+        <h3>{{ product.name }}</h3>
+        <img *ngIf="product.imageUrl" [src]="product.imageUrl" alt="{{ product.name }}" class="book-image" />
+        <p>{{ product.description }}</p>
+        <p class="label">Authors: <span class="value">{{ product.authors || 'Unknown' }}</span></p>
+        <p class="label">Category: <span class="value">{{ product.category }}</span></p>
+        <p class="label">Price: <span class="value">₹{{ product.price }}</span></p>
+        <p class="label">
+            Status:
+            <span [ngClass]="{'available': product.available, 'unavailable': !product.available}" class="value">
+                {{ product.available ? 'Available' : 'Out of Stock' }}
+            </span>
+        </p>
+        <hr />
+    </div>
+</div>

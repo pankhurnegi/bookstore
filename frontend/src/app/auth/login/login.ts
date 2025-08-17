@@ -5,6 +5,7 @@ import { AuthService } from '../../services/auth.service';
 import { ToastrService } from 'ngx-toastr';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule } from '@angular/forms';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-login',
@@ -19,7 +20,8 @@ export class Login implements OnInit {
   constructor(
     private fb: FormBuilder,
     private authService: AuthService,
-    private toastr: ToastrService
+    private toastr: ToastrService,
+    private router: Router
   ) { }
 
   ngOnInit(): void {
@@ -40,6 +42,7 @@ export class Login implements OnInit {
         localStorage.setItem('access_token', res.access_token);
         this.toastr.success('Login successful!', 'Success');
         this.loginForm.reset();
+        this.router.navigate(['/products']);
       },
       error: (err) => {
         const message = err.error?.message || 'Login failed. Please check your credentials.';
