@@ -1,6 +1,5 @@
 import { Table, Column, Model, DataType } from 'sequelize-typescript';
 
-// Define interfaces as usual
 export interface UserAttributes {
     id?: number;
     username: string;
@@ -17,7 +16,6 @@ export class User extends Model<UserAttributes, UserCreationAttributes> {
         allowNull: false,
         unique: true,
     })
-    // Remove public field declaration here
     declare username: string;
 
     @Column({
