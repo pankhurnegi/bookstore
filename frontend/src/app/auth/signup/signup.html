@@ -1,0 +1,21 @@
+<form [formGroup]="signupForm" (ngSubmit)="onSubmit()">
+    <label>Username</label>
+    <input formControlName="username" />
+    <div *ngIf="signupForm.controls['username'].invalid && signupForm.controls['username'].touched" style="color:red">
+        Username must be 3-20 characters, letters, numbers, or underscores.
+    </div>
+
+    <label>Email</label>
+    <input formControlName="email" />
+    <div *ngIf="signupForm.controls['email'].invalid && signupForm.controls['email'].touched" style="color:red">
+        Enter a valid email address.
+    </div>
+
+    <label>Password</label>
+    <input formControlName="password" type="password" />
+    <div *ngIf="signupForm.controls['password'].invalid && signupForm.controls['password'].touched" style="color:red">
+        Password must be at least 6 characters.
+    </div>
+
+    <button type="submit" [disabled]="signupForm.invalid">Register</button>
+</form>

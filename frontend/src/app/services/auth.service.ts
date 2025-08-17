@@ -17,11 +17,8 @@ interface LoginResponse {
     access_token: string;
 }
 
-@Injectable({
-    providedIn: 'root',
-})
+@Injectable({ providedIn: 'root' })
 export class AuthService {
-    // Change this to your NestJS backend API URL
     private apiUrl = 'http://localhost:3000/auth';
 
     constructor(private http: HttpClient) { }
