@@ -1,7 +1,7 @@
 // src/products/products.service.ts
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/sequelize';
-import { Product, ProductCreationAttributes } from './product.entity';
+import { Product } from './product.entity';
 import { CreateProductDto } from './dto/product.dto';
 
 @Injectable()
@@ -12,7 +12,8 @@ export class ProductsService {
     ) { }
 
     async create(createProductDto: CreateProductDto): Promise<Product> {
-        return this.productModel.create(createProductDto as ProductCreationAttributes);
+        const obj = { ...createProductDto };
+        return this.productModel.create(obj);
     }
 
     async findAll(): Promise<Product[]> {

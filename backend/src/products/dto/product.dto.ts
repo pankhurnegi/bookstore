@@ -1,8 +1,8 @@
 // src/products/product.dto.ts
 import { IsNotEmpty, IsString, IsNumber, IsBoolean } from 'class-validator';
-import { ProductCreationAttributes } from '../product.entity';
+// import { ProductCreationAttributes } from '../product.entity';
 
-export class CreateProductDto implements ProductCreationAttributes {
+export class CreateProductDto {
     @IsNotEmpty()
     @IsString()
     name: string;
@@ -18,6 +18,9 @@ export class CreateProductDto implements ProductCreationAttributes {
     @IsNotEmpty()
     @IsNumber()
     price: number;
+
+    @IsNumber()
+    stockQuantity: number;
 
     @IsNotEmpty()
     @IsBoolean()

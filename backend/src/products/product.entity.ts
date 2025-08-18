@@ -1,19 +1,20 @@
-// src/products/product.entity.ts
+
 import { Table, Column, Model, DataType } from 'sequelize-typescript';
 
-export interface ProductCreationAttributes {
-    name: string;
-    description: string;
-    authors: string;
-    price: number;
-    available: boolean;
-    category: string;
-    imageUrl?: string;
+// export interface ProductCreationAttributes {
+//     name: string;
+//     description: string;
+//     authors: string;
+//     price: number;
+//     stockQuantity: number;
+//     available: boolean;
+//     category: string;
+//     imageUrl?: string;
 
-}
+// }
 
 @Table({ tableName: 'products' })
-export class Product extends Model<Product, ProductCreationAttributes> {
+export class Product extends Model {
     @Column({
         type: DataType.STRING,
         allowNull: false,
@@ -37,6 +38,13 @@ export class Product extends Model<Product, ProductCreationAttributes> {
         allowNull: false,
     })
     price: number;
+
+    @Column({
+        type: DataType.INTEGER,
+        allowNull: false,
+        defaultValue: 0,
+    })
+    stockQuantity: number;
 
     @Column({
         type: DataType.BOOLEAN,
