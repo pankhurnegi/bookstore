@@ -8,6 +8,7 @@ import { provideRouter } from '@angular/router';
 import { Signup } from './app/auth/signup/signup';
 import { Login } from './app/auth/login/login';
 import { Products } from './app/products/products';
+import { Cart } from './app/cart/cart';
 bootstrapApplication(AppComponent, {
     providers: [
         importProvidersFrom(
@@ -19,6 +20,7 @@ bootstrapApplication(AppComponent, {
             { path: 'signup', component: Signup },
             { path: 'login', component: Login },
             { path: 'products', component: Products },
+            { path: 'cart', component: Cart },
             { path: '', redirectTo: '/login', pathMatch: 'full' }
         ])
     ],

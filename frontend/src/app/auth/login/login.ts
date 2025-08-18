@@ -1,7 +1,6 @@
-// src/app/login/login.ts
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { AuthService } from '../../services/auth.service';
+import { AuthService } from '../../shared/auth.service';
 import { ToastrService } from 'ngx-toastr';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule } from '@angular/forms';
@@ -38,8 +37,8 @@ export class Login implements OnInit {
     }
 
     this.authService.login(this.loginForm.value).subscribe({
-      next: (res) => {
-        localStorage.setItem('access_token', res.access_token);
+      next: (user) => {
+        // User profile is fetched and saved inside authService.login()
         this.toastr.success('Login successful!', 'Success');
         this.loginForm.reset();
         this.router.navigate(['/products']);

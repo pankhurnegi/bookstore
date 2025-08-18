@@ -1,0 +1,26 @@
+<h2>Your Cart</h2>
+
+<div *ngIf="loading">Loading...</div>
+<div *ngIf="error">{{ error }}</div>
+<div *ngIf="!loading && cartItems.length === 0">Cart is empty.</div>
+
+<div *ngFor="let item of cartItems" class="cart-item">
+    <img *ngIf="item.product?.imageUrl" [src]="item.product?.imageUrl" [alt]="item.product?.name || 'Product'"
+        class="product-image" />
+    <div class="item-info">
+        <div class="product-name">{{ item.product?.name || 'Unknown' }}</div>
+        <div class="product-price">₹{{ item.product?.price ?? 'N/A' }}</div>
+        <div class="quantity-update">
+            <button (click)="updateQuantity(item, item.quantity-1)"
+                [disabled]="item.quantity <= 1 || loading">-</button>
+            <span>{{ item.quantity }}</span>
+            <button (click)="updateQuantity(item, item.quantity+1)"
+                [disabled]="item.quantity >= 5 || loading">+</button>
+        </div>
+        <button (click)="remove(item)" [disabled]="loading">Remove</button>
+        <div class="stock-warning"
+            *ngIf="item.product?.stockQuantity !== undefined && item.quantity > (item.product?.stockQuantity ?? 0)">
+            <span style="color: red;">Only {{ item.product?.stockQuantity }} in stock!</span>
+        </div>
+    </div>
+</div>

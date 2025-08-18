@@ -16,6 +16,8 @@
                 {{ product.available ? 'Available' : 'Out of Stock' }}
             </span>
         </p>
+
+        <button (click)="addToCart(product.id)" [disabled]="!product.available">Add to Cart</button>
         <hr />
     </div>
 </div>

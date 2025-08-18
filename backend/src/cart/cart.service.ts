@@ -11,14 +11,18 @@ export class CartService {
     ) { }
 
     async getUserCart(userId: number): Promise<CartItem[]> {
-        console.log("hi")
-        return this.cartItemModel.findAll({ where: { userId } });
+        return this.cartItemModel.findAll({
+            where: { userId },
+            include: [{
+                model: this.productModel,
+                as: 'product',
+            }],
+        });
     }
 
     async addToCart(userId: number, productId: number, quantity: number): Promise<CartItem> {
-
         const product = await this.productModel.findByPk(productId);
-        console.log("product", product)
+        console.log("product", product);
 
         if (!product || !product?.dataValues?.available || product?.dataValues?.stockQuantity < 1) {
             throw new Error('Product not available');
@@ -27,14 +31,14 @@ export class CartService {
         if (quantity > product.stockQuantity) throw new Error('Quantity exceeds available stock');
 
         let item = await this.cartItemModel.findOne({ where: { userId, productId } });
-        console.log("item", item)
+        console.log("item", item);
 
         if (item) {
             item.quantity = quantity;
             await item.save();
             return item;
         }
-        return this.cartItemModel.create({ userId, productId, quantity });
+        return this.cartItemModel.create({ userId, productId, quantity } as any);
     }
 
     async removeFromCart(id: number): Promise<void> {
@@ -50,9 +54,9 @@ export class CartService {
 
         if (quantity > 5) throw new Error('Max 5 units allowed per cart item');
         if (quantity > product.stockQuantity) throw new Error('Quantity exceeds available stock');
+
         item.quantity = quantity;
         await item.save();
         return item;
     }
-
 }

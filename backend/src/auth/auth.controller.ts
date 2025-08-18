@@ -18,7 +18,7 @@ export class AuthController {
         return this.authService.login(dto);
     }
 
-
+    // Single profile endpoint with JwtAuthGuard
     @UseGuards(JwtAuthGuard)
     @Get('profile')
     getProfile(@Request() req) {
