@@ -2,8 +2,8 @@ import { Table, Column, Model, DataType, ForeignKey, BelongsTo } from 'sequelize
 import { User } from '../users/user.entity';
 import { Product } from '../products/product.entity';
 
-@Table({ tableName: 'cart_items' })  // remove backslash from table name
-export class CartItem extends Model<CartItem> {
+@Table({ tableName: 'cart_items' })
+export class CartItem extends Model {
 
     @ForeignKey(() => User)
     @Column({ type: DataType.INTEGER, allowNull: false })

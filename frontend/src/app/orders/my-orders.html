@@ -1,0 +1,21 @@
+<h2>My Orders</h2>
+
+<div *ngIf="orders.length === 0">No orders found.</div>
+
+<div *ngFor="let order of orders" style="border: 1px solid #ccc; padding: 10px; margin-bottom: 10px;">
+    <h3>Order ID: {{ order.id }}</h3>
+    <p>Address: {{ order.addressLine1 }}, {{ order.city }}, {{ order.state }}, {{ order.pinCode }}</p>
+    <p>Payment Method: {{ order.paymentMethod }}</p>
+    <p>Order Date: {{ order.orderDate | date }}</p>
+
+    <h4>Items:</h4>
+    <ul>
+        <ul>
+            <li *ngFor="let item of order.orderItems">
+                Product: {{ item.product?.name || 'Unknown' }} — Quantity: {{ item.quantity }} — Price: {{ item.price |
+                currency }}
+            </li>
+        </ul>
+
+    </ul>
+</div>

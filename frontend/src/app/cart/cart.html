@@ -1,26 +1,48 @@
-<h2>Your Cart</h2>
-
-<div *ngIf="loading">Loading...</div>
-<div *ngIf="error">{{ error }}</div>
-<div *ngIf="!loading && cartItems.length === 0">Cart is empty.</div>
-
-<div *ngFor="let item of cartItems" class="cart-item">
-    <img *ngIf="item.product?.imageUrl" [src]="item.product?.imageUrl" [alt]="item.product?.name || 'Product'"
-        class="product-image" />
-    <div class="item-info">
-        <div class="product-name">{{ item.product?.name || 'Unknown' }}</div>
-        <div class="product-price">₹{{ item.product?.price ?? 'N/A' }}</div>
-        <div class="quantity-update">
-            <button (click)="updateQuantity(item, item.quantity-1)"
-                [disabled]="item.quantity <= 1 || loading">-</button>
-            <span>{{ item.quantity }}</span>
-            <button (click)="updateQuantity(item, item.quantity+1)"
-                [disabled]="item.quantity >= 5 || loading">+</button>
-        </div>
-        <button (click)="remove(item)" [disabled]="loading">Remove</button>
-        <div class="stock-warning"
-            *ngIf="item.product?.stockQuantity !== undefined && item.quantity > (item.product?.stockQuantity ?? 0)">
-            <span style="color: red;">Only {{ item.product?.stockQuantity }} in stock!</span>
-        </div>
+<div class="cart-container">
+    <h2>Your Cart</h2>
+    <div *ngIf="cartItems.length === 0">
+        <p>Your cart is empty.</p>
     </div>
+    <table *ngIf="cartItems.length > 0" class="cart-table">
+        <thead>
+            <tr>
+                <th>Product</th>
+                <th>Author</th>
+                <th>Price</th>
+                <th>Quantity</th>
+                <th>Subtotal</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let item of cartItems">
+                <td>
+                    <img *ngIf="item.product?.imageUrl" [src]="item.product?.imageUrl" alt="{{ item.product?.name }}"
+                        class="product-img" />
+                    {{ item.product?.name }}
+                </td>
+                <td>{{ item.product?.author }}</td>
+                <td>&#8377; {{ item.product?.price }}</td>
+                <td>
+                    <button (click)="updateQuantity(item.id, item.quantity - 1)"
+                        [disabled]="item.quantity <= 1">-</button>
+                    <input type="number" [(ngModel)]="item.quantity" min="1" max="5"
+                        (change)="updateQuantity(item.id, item.quantity)" style="width: 40px;" />
+                    <button (click)="updateQuantity(item.id, item.quantity + 1)"
+                        [disabled]="item.quantity >= 5 || item.quantity >= item.product?.stockQuantity">+</button>
+                </td>
+                <td>&#8377; {{ item.quantity * (item.product?.price || 0) }}</td>
+                <td>
+                    <button (click)="removeFromCart(item.id)">Remove</button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <div *ngIf="cartItems.length > 0" class="cart-total">
+        <strong>
+            Total: &#8377; {{ cartTotal }}
+        </strong>
+    </div>
+
+    <button (click)="onPlaceOrder()" [disabled]="cartItems.length === 0">Place Order</button>
 </div>

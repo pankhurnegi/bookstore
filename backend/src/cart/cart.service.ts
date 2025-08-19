@@ -1,6 +1,6 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException, BadRequestException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/sequelize';
-import { CartItem } from './cart.entity';
+import { CartItem } from './cart-item.entity';
 import { Product } from '../products/product.entity';
 
 @Injectable()
@@ -13,26 +13,26 @@ export class CartService {
     async getUserCart(userId: number): Promise<CartItem[]> {
         return this.cartItemModel.findAll({
             where: { userId },
-            include: [{
-                model: this.productModel,
-                as: 'product',
-            }],
+            include: [{ model: this.productModel, as: 'product' }],
         });
     }
 
     async addToCart(userId: number, productId: number, quantity: number): Promise<CartItem> {
         const product = await this.productModel.findByPk(productId);
-        console.log("product", product);
 
-        if (!product || !product?.dataValues?.available || product?.dataValues?.stockQuantity < 1) {
-            throw new Error('Product not available');
+        // Handle possible cases for availability, allow missing field
+        if (!product) {
+            throw new NotFoundException('Product not found');
         }
-        if (quantity > 5) throw new Error('Max 5 units allowed per cart item');
-        if (quantity > product.stockQuantity) throw new Error('Quantity exceeds available stock');
+        // If available exists, check it
+        if (product.available !== undefined && !product.available) {
+            throw new BadRequestException('Product not available');
+        }
+        if (quantity > 5) throw new BadRequestException('Max 5 units allowed per cart item');
+        if (quantity < 1) throw new BadRequestException('Quantity must be at least 1');
+        if (quantity > product.stockQuantity) throw new BadRequestException('Quantity exceeds available stock');
 
         let item = await this.cartItemModel.findOne({ where: { userId, productId } });
-        console.log("item", item);
-
         if (item) {
             item.quantity = quantity;
             await item.save();
@@ -47,13 +47,17 @@ export class CartService {
 
     async updateQuantity(id: number, quantity: number): Promise<CartItem> {
         const item = await this.cartItemModel.findByPk(id);
-        if (!item) throw new Error('Cart item not found');
+        if (!item) throw new NotFoundException('Cart item not found');
 
-        const product = await this.productModel.findByPk(item.productId);
-        if (!product) throw new Error('Product not found');
-
-        if (quantity > 5) throw new Error('Max 5 units allowed per cart item');
-        if (quantity > product.stockQuantity) throw new Error('Quantity exceeds available stock');
+        const res = await this.productModel.findByPk(item?.dataValues?.productId);
+        const product = res?.dataValues;
+        if (!product) throw new NotFoundException('Product not found');
+        if (product.available !== undefined && !product.available) {
+            throw new BadRequestException('Product not available');
+        }
+        if (quantity > 5) throw new BadRequestException('Max 5 units allowed per cart item');
+        if (quantity < 1) throw new BadRequestException('Quantity must be at least 1');
+        if (quantity > product.stockQuantity) throw new BadRequestException('Quantity exceeds available stock');
 
         item.quantity = quantity;
         await item.save();

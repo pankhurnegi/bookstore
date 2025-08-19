@@ -1,0 +1,10 @@
+<nav>
+    <a *ngIf="!authService.getUserId()" routerLink="/signup" routerLinkActive="active">Sign Up</a>
+    <a *ngIf="!authService.getUserId()" routerLink="/login" routerLinkActive="active">Login</a>
+
+    <a *ngIf="authService.getUserId()" routerLink="/profile" routerLinkActive="active">Profile</a>
+    <a *ngIf="authService.getUserId()" routerLink="/my-orders" routerLinkActive="active">My Orders</a>
+    <a routerLink="/cart" routerLinkActive="active">Cart</a>
+
+    <button *ngIf="authService.getUserId()" (click)="authService.logout()">Logout</button>
+</nav>

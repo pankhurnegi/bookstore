@@ -35,19 +35,16 @@ export class AuthService {
     }
 
     login(data: LoginRequest): Observable<User> {
-        // First, login and get the token
         return this.http.post<LoginResponse>(`${this.apiUrl}/login`, data).pipe(
             tap(response => {
                 localStorage.setItem('access_token', response.access_token);
             }),
-            // Then, fetch and store the user profile
             switchMap(() => this.fetchUserProfile())
         );
     }
 
     fetchUserProfile(): Observable<User> {
         const token = localStorage.getItem('access_token');
-        // Your backend might have a different endpoint, update as needed:
         return this.http.get<User>(`${this.apiUrl}/profile`, {
             headers: { Authorization: `Bearer ${token}` }
         }).pipe(
@@ -63,7 +60,7 @@ export class AuthService {
             const userJson = localStorage.getItem('user');
             try {
                 this._user = userJson ? JSON.parse(userJson) : null;
-            } catch (e) {
+            } catch {
                 localStorage.removeItem('user');
                 this._user = null;
             }
@@ -81,4 +78,15 @@ export class AuthService {
         localStorage.removeItem('user');
         this._user = null;
     }
+
+    // update profile
+
+    getUserProfile(userId: number) {
+        return this.http.get<User>(`${this.apiUrl}/users/${userId}`); // adapt to your backend API
+    }
+
+    updateUserProfile(profileData: any) {
+        return this.http.put(`${this.apiUrl}/users/profile`, profileData);
+    }
+
 }

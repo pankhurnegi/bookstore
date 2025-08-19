@@ -12,7 +12,8 @@ import { JwtAuthGuard } from './jwt-auth.guard';
     imports: [
         UsersModule,
         PassportModule,
-        ConfigModule,  // Import ConfigModule to load .env variables
+        ConfigModule,
+          
         JwtModule.registerAsync({
             imports: [ConfigModule],
             useFactory: async (configService: ConfigService) => ({

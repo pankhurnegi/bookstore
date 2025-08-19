@@ -1,86 +1,79 @@
 import { Component, OnInit } from '@angular/core';
-import { CartService, CartItem } from './cart.service';
 import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
+import { CartService } from './cart.service';
 import { AuthService } from '../shared/auth.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-cart',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, FormsModule],
   templateUrl: './cart.html',
-  styleUrls: ['./cart.css']   
+  styleUrls: ['./cart.css']
 })
 export class Cart implements OnInit {
-  cartItems: CartItem[] = [];
-  loading = false;
-  error: string | null = null;
-  userId: number | null;
+  cartItems: any[] = [];
+  userId: number | null = null;
 
   constructor(
     private cartService: CartService,
-    private authService: AuthService
-  ) {
-    // Fetch userId from AuthService, do NOT hardcode or use localStorage directly here
-    this.userId = this.authService.getUserId();
-  }
+    private authService: AuthService,
+    private router: Router
+  ) { }
 
   ngOnInit() {
-    // Only load cart if user is logged in (userId not null)
-    if (this.userId != null) {
+    this.userId = this.authService.getUserId();
+    if (this.userId !== null) {
       this.loadCart();
     } else {
-      this.error = 'Please log in to view your cart.';
+      alert('Please log in to view your cart.');
     }
   }
 
   loadCart() {
-    this.loading = true;
-    if (this.userId == null) {
-      this.error = 'User not logged in';
-      this.loading = false;
+    this.cartService.getUserCart(this.userId!).subscribe({
+      next: items => { this.cartItems = items; },
+      error: err => { alert(err.error?.message || 'Error loading cart!'); }
+    });
+  }
+
+  addToCart(productId: number, quantity: number) {
+    this.cartService.addToCart(this.userId!, productId, quantity).subscribe({
+      next: item => { this.loadCart(); },
+      error: err => { alert(err.error?.message || 'Cannot add to cart!'); }
+    });
+  }
+
+  updateQuantity(cartItemId: number, quantity: number) {
+
+    this.cartService.updateQuantity(cartItemId, quantity).subscribe({
+      next: item => { this.loadCart(); },
+      error: err => { alert(err.error?.message || 'Cannot update cart item!'); }
+    });
+  }
+
+  removeFromCart(cartItemId: number) {
+    this.cartService.removeFromCart(cartItemId).subscribe({
+      next: () => { this.loadCart(); },
+      error: err => { alert(err.error?.message || 'Cannot remove cart item!'); }
+    });
+  }
+
+  get cartTotal(): number {
+    return this.cartItems.reduce(
+      (total, item) => total + (item.quantity * (item.product?.price || 0)),
+      0
+    );
+  }
+
+  onPlaceOrder() {
+    if (this.cartItems.length === 0) {
+      alert('Your cart is empty. Add items before placing an order.');
       return;
     }
-    this.cartService.getCart(this.userId).subscribe({
-      next: items => {
-        this.cartItems = items;
-        this.loading = false;
-        this.error = null;
-      },
-      error: err => {
-        this.error = err.error?.message || 'Failed to load cart';
-        this.loading = false;
-      }
-    });
+    this.router.navigate(['/delivery-payment']);
   }
 
-  updateQuantity(item: CartItem, newQuantity: number) {
-    if (newQuantity < 1 || newQuantity > 5) return;
-    this.loading = true;
-    this.cartService.updateQuantity(item.id, newQuantity).subscribe({
-      next: updatedItem => {
-        item.quantity = updatedItem.quantity;
-        this.loading = false;
-        this.error = null;
-      },
-      error: err => {
-        this.error = err.error?.message || 'Cannot update quantity';
-        this.loading = false;
-      }
-    });
-  }
 
-  remove(item: CartItem) {
-    this.loading = true;
-    this.cartService.removeFromCart(item.id).subscribe({
-      next: () => {
-        this.cartItems = this.cartItems.filter(i => i.id !== item.id);
-        this.loading = false;
-        this.error = null;
-      },
-      error: err => {
-        this.error = err.error?.message || 'Cannot remove item';
-        this.loading = false;
-      }
-    });
-  }
 }

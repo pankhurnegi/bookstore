@@ -1,0 +1,56 @@
+<h2>Delivery & Payment</h2>
+<p>{{ message }}</p>
+
+<form [formGroup]="orderForm" (ngSubmit)="submitOrder()">
+    <div>
+        <label for="addressLine1">Address Line 1:</label>
+        <input id="addressLine1" formControlName="addressLine1" />
+        <div *ngIf="orderForm.get('addressLine1')?.invalid && orderForm.get('addressLine1')?.touched"
+            style="color:red;">
+            Address Line 1 is required.
+        </div>
+    </div>
+
+    <div>
+        <label for="addressLine2">Address Line 2:</label>
+        <input id="addressLine2" formControlName="addressLine2" />
+    </div>
+
+    <div>
+        <label for="city">City:</label>
+        <input id="city" formControlName="city" />
+        <div *ngIf="orderForm.get('city')?.invalid && orderForm.get('city')?.touched" style="color:red;">
+            City is required.
+        </div>
+    </div>
+
+    <div>
+        <label for="state">State:</label>
+        <input id="state" formControlName="state" />
+        <div *ngIf="orderForm.get('state')?.invalid && orderForm.get('state')?.touched" style="color:red;">
+            State is required.
+        </div>
+    </div>
+
+    <div>
+        <label for="pinCode">Postal Code:</label>
+        <input id="pinCode" formControlName="pinCode" />
+        <div *ngIf="orderForm.get('pinCode')?.invalid && orderForm.get('pinCode')?.touched" style="color:red;">
+            Postal Code is required and must be 5 or 6 digits.
+        </div>
+    </div>
+
+    <div>
+        <label for="paymentMethod">Payment Method:</label>
+        <select id="paymentMethod" formControlName="paymentMethod">
+            <option value="">Select payment method</option>
+            <option *ngFor="let method of paymentMethods" [value]="method">{{ method }}</option>
+        </select>
+        <div *ngIf="orderForm.get('paymentMethod')?.invalid && orderForm.get('paymentMethod')?.touched"
+            style="color:red;">
+            Payment method is required.
+        </div>
+    </div>
+
+    <button type="submit" [disabled]="orderForm.invalid">Place Order</button>
+</form>

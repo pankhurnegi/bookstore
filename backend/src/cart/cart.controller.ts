@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Delete, Param, Patch } from '@nestjs/common';
+import { Controller, Get, Post, Body, Delete, Param, Patch, Query } from '@nestjs/common';
 import { CartService } from './cart.service';
 import { AddToCartDto } from './dto/cart.dto';
 
@@ -6,8 +6,9 @@ import { AddToCartDto } from './dto/cart.dto';
 export class CartController {
     constructor(private readonly cartService: CartService) { }
 
-    @Get(':userId')
-    getUserCart(@Param('userId') userId: string) {
+    // Get cart by user, now supporting both route param or query string
+    @Get()
+    getUserCart(@Query('userId') userId: string) {
         return this.cartService.getUserCart(Number(userId));
     }
 

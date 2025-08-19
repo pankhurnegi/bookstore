@@ -1,6 +1,6 @@
 import { Module } from '@nestjs/common';
 import { SequelizeModule } from '@nestjs/sequelize';
-import { CartItem } from './cart.entity';
+import { CartItem } from './cart-item.entity';
 import { Product } from '../products/product.entity';
 import { CartService } from './cart.service';
 import { CartController } from './cart.controller';
