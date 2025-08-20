@@ -1,3 +1,4 @@
+
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/sequelize';
 import { User } from './user.entity';
@@ -14,10 +15,17 @@ export class UsersService {
         return user;
     }
 
+    async getUserByEmail(email: string): Promise<User | null> {
+        return this.userModel.findOne({ where: { email } });
+    }
+
+    async getUserByUsername(username: string): Promise<User | null> {
+        return this.userModel.findOne({ where: { username } });
+    }
+
     async updateProfile(userId: number, updateUserDto: UpdateUserDto): Promise<User> {
         const user = await this.getUserById(userId);
 
-        // If password is provided, hash it before saving
         if (updateUserDto.password) {
             updateUserDto.password = await bcrypt.hash(updateUserDto.password, 10);
         }

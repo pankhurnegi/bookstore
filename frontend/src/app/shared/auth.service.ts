@@ -34,7 +34,6 @@ export class AuthService {
 
     register(data: RegisterRequest): Observable<any> {
         return this.http.post<any>(`${this.apiUrl}/register`, data).pipe(
-            // Extract data from response
             map((res: any) => res.data?.[0] ?? res.data ?? res)
         );
     }
@@ -79,11 +78,15 @@ export class AuthService {
         return user ? user.id : null;
     }
 
+    getUsername(): string | null {
+        return this.getUser()?.username ?? null;
+    }
+
     logout() {
         localStorage.removeItem('access_token');
         localStorage.removeItem('user');
         this._user = null;
-        this.router.navigate(['/login']);  // Redirect to login page after logout
+        this.router.navigate(['/login']);
     }
 
     getUserProfile(userId: number) {

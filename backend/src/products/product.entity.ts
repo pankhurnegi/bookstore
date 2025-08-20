@@ -1,17 +1,6 @@
 
 import { Table, Column, Model, DataType } from 'sequelize-typescript';
 
-// export interface ProductCreationAttributes {
-//     name: string;
-//     description: string;
-//     authors: string;
-//     price: number;
-//     stockQuantity: number;
-//     available: boolean;
-//     category: string;
-//     imageUrl?: string;
-
-// }
 
 @Table({ tableName: 'products' })
 export class Product extends Model {

@@ -1,13 +1,6 @@
 import { Table, Column, Model, DataType } from 'sequelize-typescript';
 
-// export interface UserAttributes {
-//     id?: number;
-//     username: string;
-//     email: string;
-//     password: string;
-// }
 
-// export interface UserCreationAttributes extends Omit<UserAttributes, 'id'> { }
 
 @Table({ tableName: 'users' })
 export class User extends Model {
@@ -15,6 +8,7 @@ export class User extends Model {
         type: DataType.STRING,
         allowNull: false,
         unique: true,
+        field: 'username'
     })
     declare username: string;
 
@@ -22,12 +16,14 @@ export class User extends Model {
         type: DataType.STRING,
         allowNull: false,
         unique: true,
+        field: 'email'
     })
     declare email: string;
 
     @Column({
         type: DataType.STRING,
         allowNull: false,
+        field: 'password'
     })
     declare password: string;
 }
