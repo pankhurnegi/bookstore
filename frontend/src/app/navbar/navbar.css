@@ -1,20 +1,26 @@
+@import url('https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;700&display=swap');
+
 nav {
     display: flex;
     justify-content: space-between;
     align-items: center;
     background: #1B3C53;
+    font-family: 'Oswald', Arial, sans-serif;
     padding: 1rem 2rem;
     border-radius: 0 0 16px 16px;
     box-shadow: 0 4px 20px rgba(27, 60, 83, 0.15);
 }
 
+nav,
 .left-nav a,
-.right-nav a {
+.right-nav a,
+.left-nav span {
     color: #F9F3EF;
     text-decoration: none;
     margin: 0 1rem;
     font-weight: 500;
     font-size: 1rem;
+    font-family: 'Oswald', Arial, sans-serif;
     padding-bottom: 4px;
     border-bottom: 2px solid transparent;
     border-radius: 4px;
