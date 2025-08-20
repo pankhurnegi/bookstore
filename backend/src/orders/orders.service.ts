@@ -11,6 +11,7 @@ export class OrdersService {
     constructor(
         @InjectModel(Order) private orderModel: typeof Order,
         @InjectModel(CartItem) private cartItemModel: typeof CartItem,
+        @InjectModel(OrderItem) private orderItemModel: typeof OrderItem,
     ) { }
 
     async createOrder(createOrderDto: CreateOrderDto): Promise<Order> {
@@ -21,13 +22,15 @@ export class OrdersService {
 
         const orderData = { ...createOrderDto };
         const order = await this.orderModel.create(orderData);
+        console.log("order", order);
 
-        // Create OrderItems for each cart item
+
+
         for (const cartItem of cartItems) {
-            await OrderItem.create({
-                orderId: order.id,
-                productId: cartItem.productId,
-                quantity: cartItem.quantity,
+            await this.orderItemModel.create({
+                orderId: order?.dataValues?.id,
+                productId: cartItem?.dataValues?.productId,
+                quantity: cartItem?.dataValues?.quantity,
                 price: cartItem.product?.price ?? 0,
             });
         }

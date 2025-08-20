@@ -69,20 +69,14 @@ export class Cart implements OnInit {
   }
 
   updateQuantity(cartItemId: number, quantity: number) {
-    // Find the cart item to get max stock
-    const item = this.cartItems.find(i => i.id === cartItemId);
-    if (!item) return;
-    const maxQty = Math.min(5, item.product?.stockQuantity ?? 5);
-    // Clamp quantity
-    const clampedQty = Math.max(1, Math.min(quantity, maxQty));
+    const clampedQty = Math.max(1, Math.min(quantity, 5));
+    console.log('Updating cart item', cartItemId, 'to quantity', clampedQty);
     this.quantityInputs[cartItemId] = clampedQty;
     this.cartService.updateQuantity(cartItemId, clampedQty).subscribe({
       next: response => {
-        console.log('Update quantity response:', response);
-        this.loadCart();
+        // this.loadCart();
       },
       error: err => {
-        console.error('Update quantity error:', err);
         const fieldErrors = err.error?.feildErrors ?? [];
         if (fieldErrors.length) {
           alert('Cannot update cart item: ' + JSON.stringify(fieldErrors));
@@ -109,7 +103,7 @@ export class Cart implements OnInit {
 
   get cartTotal(): number {
     return this.cartItems.reduce(
-      (total, item) => total + (item.quantity * (item.product?.price || 0)),
+      (total, item) => total + ((this.quantityInputs[item.id] || item.quantity) * (item.product?.price || 0)),
       0
     );
   }

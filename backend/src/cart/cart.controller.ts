@@ -25,6 +25,7 @@ export class CartController {
 
     @Patch(':id')
     updateQuantity(@Param('id') id: string, @Body('quantity') quantity: number) {
+        console.log("quantity", quantity);
         return this.cartService.updateQuantity(Number(id), quantity);
     }
 }

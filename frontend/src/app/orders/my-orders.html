@@ -12,8 +12,8 @@
     <ul>
         <ul>
             <li *ngFor="let item of order.orderItems">
-                Product: {{ item.product?.name || 'Unknown' }} — Quantity: {{ item.quantity }} — Price: {{ item.price |
-                currency }}
+                Product: {{ item.product?.name || 'Unknown' }} — Quantity: {{ item.quantity }} — Price: ₹{{ item.price
+                }}
             </li>
         </ul>
 

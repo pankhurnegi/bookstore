@@ -31,7 +31,7 @@
                     <button (click)="updateQuantity(item.id, quantityInputs[item.id] + 1)"
                         [disabled]="quantityInputs[item.id] >= 5 || quantityInputs[item.id] >= item.product?.stockQuantity">+</button>
                 </td>
-                <td>&#8377; {{ item.quantity * (item.product?.price || 0) }}</td>
+                <td>&#8377; {{ quantityInputs[item.id] * (item.product?.price || 0) }}</td>
                 <td>
                     <button (click)="removeFromCart(item.id)">Remove</button>
                 </td>
