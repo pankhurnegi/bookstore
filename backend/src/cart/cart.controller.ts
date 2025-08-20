@@ -1,12 +1,13 @@
-import { Controller, Get, Post, Body, Delete, Param, Patch, Query } from '@nestjs/common';
+import { Controller, Get, Post, Body, Delete, Param, Patch, Query, UseGuards } from '@nestjs/common';
 import { CartService } from './cart.service';
 import { AddToCartDto } from './dto/cart.dto';
+import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 
+@UseGuards(JwtAuthGuard)
 @Controller('cart')
 export class CartController {
     constructor(private readonly cartService: CartService) { }
 
-    // Get cart by user, now supporting both route param or query string
     @Get()
     getUserCart(@Query('userId') userId: string) {
         return this.cartService.getUserCart(Number(userId));

@@ -49,7 +49,6 @@ export class AuthService {
         const user = await User.findByPk(userId);
         if (!user) throw new NotFoundException('User not found');
 
-        // Check if new email or username are already taken by other users
         if (updateProfileDto.email && updateProfileDto.email !== user.email) {
             const existingEmail = await User.findOne({ where: { email: updateProfileDto.email } });
             if (existingEmail) throw new BadRequestException('Email already in use');
@@ -60,7 +59,6 @@ export class AuthService {
             if (existingUsername) throw new BadRequestException('Username already in use');
         }
 
-        // If updating password, hash it
         if (updateProfileDto.password) {
             updateProfileDto.password = await bcrypt.hash(updateProfileDto.password, 10);
         }

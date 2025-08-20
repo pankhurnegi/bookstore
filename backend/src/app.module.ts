@@ -1,4 +1,7 @@
 import { Module } from '@nestjs/common';
+import { APP_INTERCEPTOR } from '@nestjs/core';
+import { ErrorInterceptor } from './error.interceptor';
+import { ResponseInterceptor } from './response.interceptor';
 import { ConfigModule } from '@nestjs/config';
 import { DatabaseModule } from './database.module';
 import { AuthModule } from './auth/auth.module';
@@ -17,6 +20,16 @@ import { OrderItem } from './orders/order-item.entity';
     ProductsModule,
     CartModule,
     OrdersModule,
+  ],
+  providers: [
+    {
+      provide: APP_INTERCEPTOR,
+      useClass: ErrorInterceptor,
+    },
+    {
+      provide: APP_INTERCEPTOR,
+      useClass: ResponseInterceptor,
+    },
   ],
 })
 export class AppModule { }

@@ -20,16 +20,14 @@ export class CartService {
     async addToCart(userId: number, productId: number, quantity: number): Promise<CartItem> {
         const product = await this.productModel.findByPk(productId);
 
-        // Handle possible cases for availability, allow missing field
         if (!product) {
             throw new NotFoundException('Product not found');
         }
-        // If available exists, check it
         if (product.available !== undefined && !product.available) {
             throw new BadRequestException('Product not available');
         }
-        if (quantity > 5) throw new BadRequestException('Max 5 units allowed per cart item');
-        if (quantity < 1) throw new BadRequestException('Quantity must be at least 1');
+        // if (quantity > 5) throw new BadRequestException('Max 5 units allowed per cart item');
+        // if (quantity < 1) throw new BadRequestException('Quantity must be at least 1');
         if (quantity > product.stockQuantity) throw new BadRequestException('Quantity exceeds available stock');
 
         let item = await this.cartItemModel.findOne({ where: { userId, productId } });
