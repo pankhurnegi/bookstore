@@ -26,6 +26,7 @@ p {
     width: 100%;
     border-collapse: collapse;
     margin-bottom: 1.8rem;
+
 }
 
 .cart-table thead th {
@@ -34,7 +35,7 @@ p {
     font-weight: 600;
     padding: 1rem 1.2rem;
     text-align: left;
-    border-radius: 12px 12px 0 0;
+    border-radius: 0%;
     letter-spacing: 0.03em;
 }
 
@@ -45,7 +46,7 @@ p {
 
 .cart-table tbody tr:hover {
     background-color: #EAE2D6;
-   
+
 }
 
 .cart-table tbody td {
@@ -69,7 +70,7 @@ p {
     color: #F9F3EF;
     border: none;
     padding: 0.3rem 0.7rem;
-    border-radius: 6px;
+    border-radius: 0px;
     cursor: pointer;
     font-weight: 600;
     font-size: 0.95rem;

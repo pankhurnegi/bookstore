@@ -25,13 +25,17 @@ export class Products implements OnInit {
 
   ngOnInit(): void {
     this.productsService.getProducts().subscribe({
-      next: products => {
-        this.products = products;
-        this.currentPage = 1;        // Reset to first page when products load
+      next: response => {
+        this.products = response.data ?? [];
+        this.currentPage = 1;
         this.loading = false;
       },
       error: err => {
         this.loading = false;
+        const fieldErrors = err.error?.feildErrors ?? [];
+        if (fieldErrors.length) {
+          alert('Field errors: ' + JSON.stringify(fieldErrors));
+        }
       }
     });
   }
@@ -42,11 +46,16 @@ export class Products implements OnInit {
       return;
     }
     this.cartService.addToCart(this.userId, productId, 1).subscribe({
-      next: item => {
+      next: response => {
         alert('Item added to cart!');
       },
       error: err => {
-        alert('Cannot add to cart: ' + (err.error?.message || err.message));
+        const fieldErrors = err.error?.feildErrors ?? [];
+        if (fieldErrors.length) {
+          alert('Cannot add to cart: ' + JSON.stringify(fieldErrors));
+        } else {
+          alert('Cannot add to cart: ' + (err.error?.message || err.message));
+        }
       }
     });
   }

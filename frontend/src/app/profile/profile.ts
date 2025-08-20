@@ -38,12 +38,22 @@ export class Profile implements OnInit {
             this.router.navigate(['/login']);
             return;
         }
-        this.authService.getUserProfile(userId).subscribe(user => {
-            this.profileForm.patchValue({
-                username: user.username,
-                email: user.email,
-                // password omitted to avoid null assignment error
-            });
+        this.authService.getUserProfile(userId).subscribe({
+            next: user => {
+                this.profileForm.patchValue({
+                    username: user.username,
+                    email: user.email,
+                    // password omitted to avoid null assignment error
+                });
+            },
+            error: err => {
+                const fieldErrors = err.error?.feildErrors ?? [];
+                if (fieldErrors.length) {
+                    alert('Error loading profile: ' + JSON.stringify(fieldErrors));
+                } else {
+                    alert('Error loading profile: ' + (err.error?.message || err.message));
+                }
+            }
         });
     }
 
@@ -58,11 +68,18 @@ export class Profile implements OnInit {
 
             this.authService.updateUserProfile(updateData).subscribe({
                 next: () => alert('Profile updated successfully!'),
-                error: err => alert('Update failed: ' + err.message),
+                error: err => {
+                    const fieldErrors = err.error?.feildErrors ?? [];
+                    if (fieldErrors.length) {
+                        alert('Update failed: ' + JSON.stringify(fieldErrors));
+                    } else {
+                        alert('Update failed: ' + (err.error?.message || err.message));
+                    }
+                },
             });
         }
     }
 
 
-    
+
 }

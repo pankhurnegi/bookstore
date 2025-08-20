@@ -33,30 +33,58 @@ export class Cart implements OnInit {
 
   loadCart() {
     this.cartService.getUserCart(this.userId!).subscribe({
-      next: items => { this.cartItems = items; },
-      error: err => { alert(err.error?.message || 'Error loading cart!'); }
+      next: response => { this.cartItems = response.data ?? []; },
+      error: err => {
+        const fieldErrors = err.error?.feildErrors ?? [];
+        if (fieldErrors.length) {
+          alert('Error loading cart: ' + JSON.stringify(fieldErrors));
+        } else {
+          alert(err.error?.message || 'Error loading cart!');
+        }
+      }
     });
   }
 
   addToCart(productId: number, quantity: number) {
     this.cartService.addToCart(this.userId!, productId, quantity).subscribe({
-      next: item => { this.loadCart(); },
-      error: err => { alert(err.error?.message || 'Cannot add to cart!'); }
+      next: response => { this.loadCart(); },
+      error: err => {
+        const fieldErrors = err.error?.feildErrors ?? [];
+        if (fieldErrors.length) {
+          alert('Cannot add to cart: ' + JSON.stringify(fieldErrors));
+        } else {
+          alert(err.error?.message || 'Cannot add to cart!');
+        }
+      }
     });
   }
 
   updateQuantity(cartItemId: number, quantity: number) {
 
     this.cartService.updateQuantity(cartItemId, quantity).subscribe({
-      next: item => { this.loadCart(); },
-      error: err => { alert(err.error?.message || 'Cannot update cart item!'); }
+      next: response => { this.loadCart(); },
+      error: err => {
+        const fieldErrors = err.error?.feildErrors ?? [];
+        if (fieldErrors.length) {
+          alert('Cannot update cart item: ' + JSON.stringify(fieldErrors));
+        } else {
+          alert(err.error?.message || 'Cannot update cart item!');
+        }
+      }
     });
   }
 
   removeFromCart(cartItemId: number) {
     this.cartService.removeFromCart(cartItemId).subscribe({
-      next: () => { this.loadCart(); },
-      error: err => { alert(err.error?.message || 'Cannot remove cart item!'); }
+      next: response => { this.loadCart(); },
+      error: err => {
+        const fieldErrors = err.error?.feildErrors ?? [];
+        if (fieldErrors.length) {
+          alert('Cannot remove cart item: ' + JSON.stringify(fieldErrors));
+        } else {
+          alert(err.error?.message || 'Cannot remove cart item!');
+        }
+      }
     });
   }
 

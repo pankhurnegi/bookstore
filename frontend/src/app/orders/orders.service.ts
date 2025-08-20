@@ -13,7 +13,7 @@ export class OrdersService {
     }
 
 
-    getUserOrders(userId: number): Observable<any[]> {
-        return this.http.get<any[]>(`${this.apiUrl}?userId=${userId}`);
+    getUserOrders(userId: number): Observable<any> {
+        return this.http.get<any>(`${this.apiUrl}?userId=${userId}`);
     }
 }

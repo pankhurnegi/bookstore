@@ -22,12 +22,17 @@ export class MyOrders implements OnInit {
         const userId = this.authService.getUserId();
         if (userId) {
             this.ordersService.getUserOrders(userId).subscribe({
-                next: (orders) => {
-                    console.log('Fetched orders:', orders);
-                    this.orders = orders;
+                next: (response) => {
+                    console.log('Fetched orders:', response.data);
+                    this.orders = response.data ?? [];
                 },
                 error: (err) => {
-                    console.error('Failed to fetch orders:', err);
+                    const fieldErrors = err.error?.feildErrors ?? [];
+                    if (fieldErrors.length) {
+                        console.error('Field errors:', fieldErrors);
+                    } else {
+                        console.error('Failed to fetch orders:', err);
+                    }
                 },
             });
         }

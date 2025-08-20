@@ -38,14 +38,18 @@ export class Login implements OnInit {
 
     this.authService.login(this.loginForm.value).subscribe({
       next: (user) => {
-        // User profile is fetched and saved inside authService.login()
         this.toastr.success('Login successful!', 'Success');
         this.loginForm.reset();
         this.router.navigate(['/products']);
       },
       error: (err) => {
-        const message = err.error?.message || 'Login failed. Please check your credentials.';
-        this.toastr.error(message, 'Error');
+        const fieldErrors = err.error?.feildErrors ?? [];
+        if (fieldErrors.length) {
+          this.toastr.error('Login failed: ' + JSON.stringify(fieldErrors), 'Error');
+        } else {
+          const message = err.error?.message || 'Login failed. Please check your credentials.';
+          this.toastr.error(message, 'Error');
+        }
       },
     });
   }

@@ -43,11 +43,18 @@ export class DeliveryPayment {
             }
             const orderData = { userId, ...this.orderForm.value };
             this.ordersService.createOrder(orderData).subscribe({
-                next: () => {
+                next: (response) => {
                     alert('Order placed successfully!');
                     this.router.navigate(['/products']);
                 },
-                error: (err) => alert('Failed to place order: ' + err.message),
+                error: (err) => {
+                    const fieldErrors = err.error?.feildErrors ?? [];
+                    if (fieldErrors.length) {
+                        alert('Failed to place order: ' + JSON.stringify(fieldErrors));
+                    } else {
+                        alert('Failed to place order: ' + err.message);
+                    }
+                },
             });
         } else {
             alert('Please fill all required fields correctly.');
