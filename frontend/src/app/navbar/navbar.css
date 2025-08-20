@@ -52,7 +52,7 @@ button {
     border-radius: 8px;
     padding: 0.5rem 1.4rem;
     margin-left: 1.5rem;
-    font-size: 1rem;
+    font-size: 0.8rem;
     cursor: pointer;
     transition: background 0.2s, box-shadow 0.2s;
     box-shadow: 0 2px 8px rgba(27, 60, 83, 0.12);
@@ -61,4 +61,19 @@ button {
 button:hover {
     background: #D2C1B6;
     color: #1B3C53;
+}
+
+.logo {
+    font-size: 34px;
+    font-weight: bold;
+    white-space: nowrap;
+
+}
+
+.logo .next {
+    font-size: 28px;
+    color:
+        #D2C1B6;
+    margin-left: 0;
+
 }
