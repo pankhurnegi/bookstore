@@ -14,14 +14,23 @@ export class OrdersService {
     ) { }
 
     async createOrder(createOrderDto: CreateOrderDto): Promise<Order> {
-        const cartItems = await this.cartItemModel.findAll({ where: { userId: createOrderDto.userId } });
+        const cartItems = await this.cartItemModel.findAll({ where: { userId: createOrderDto.userId }, include: [Product] });
         if (cartItems.length === 0) {
             throw new BadRequestException('Cart is empty, cannot create order');
         }
 
-
         const orderData = { ...createOrderDto };
         const order = await this.orderModel.create(orderData);
+
+        // Create OrderItems for each cart item
+        for (const cartItem of cartItems) {
+            await OrderItem.create({
+                orderId: order.id,
+                productId: cartItem.productId,
+                quantity: cartItem.quantity,
+                price: cartItem.product?.price ?? 0,
+            });
+        }
 
         await this.cartItemModel.destroy({ where: { userId: createOrderDto.userId } });
 

@@ -47,15 +47,20 @@ export class CartService {
         const item = await this.cartItemModel.findByPk(id);
         if (!item) throw new NotFoundException('Cart item not found');
 
-        const res = await this.productModel.findByPk(item?.dataValues?.productId);
-        const product = res?.dataValues;
-        if (!product) throw new NotFoundException('Product not found');
+        const product = await this.productModel.findByPk(item.productId);
+        console.log('UpdateQuantity: product', product);
+        if (!product) {
+            // Remove orphaned cart item
+            await this.cartItemModel.destroy({ where: { id: item.id } });
+            throw new NotFoundException('Product not found. Cart item removed.');
+        }
         if (product.available !== undefined && !product.available) {
             throw new BadRequestException('Product not available');
         }
         if (quantity > 5) throw new BadRequestException('Max 5 units allowed per cart item');
         if (quantity < 1) throw new BadRequestException('Quantity must be at least 1');
-        if (quantity > product.stockQuantity) throw new BadRequestException('Quantity exceeds available stock');
+        const stockQty = typeof product.stockQuantity === 'number' ? product.stockQuantity : 9999;
+        if (quantity > stockQty) throw new BadRequestException('Quantity exceeds available stock');
 
         item.quantity = quantity;
         await item.save();

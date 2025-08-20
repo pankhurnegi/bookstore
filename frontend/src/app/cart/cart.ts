@@ -15,6 +15,7 @@ import { Router } from '@angular/router';
 export class Cart implements OnInit {
   cartItems: any[] = [];
   userId: number | null = null;
+  quantityInputs: { [cartItemId: number]: number } = {};
 
   constructor(
     private cartService: CartService,
@@ -33,7 +34,15 @@ export class Cart implements OnInit {
 
   loadCart() {
     this.cartService.getUserCart(this.userId!).subscribe({
-      next: response => { this.cartItems = response.data ?? []; },
+      next: response => {
+        this.cartItems = response.data ?? [];
+        console.log('Loaded cart items:', this.cartItems);
+        // Sync quantityInputs with cartItems
+        this.quantityInputs = {};
+        for (const item of this.cartItems) {
+          this.quantityInputs[item.id] = item.quantity;
+        }
+      },
       error: err => {
         const fieldErrors = err.error?.feildErrors ?? [];
         if (fieldErrors.length) {
@@ -60,10 +69,20 @@ export class Cart implements OnInit {
   }
 
   updateQuantity(cartItemId: number, quantity: number) {
-
-    this.cartService.updateQuantity(cartItemId, quantity).subscribe({
-      next: response => { this.loadCart(); },
+    // Find the cart item to get max stock
+    const item = this.cartItems.find(i => i.id === cartItemId);
+    if (!item) return;
+    const maxQty = Math.min(5, item.product?.stockQuantity ?? 5);
+    // Clamp quantity
+    const clampedQty = Math.max(1, Math.min(quantity, maxQty));
+    this.quantityInputs[cartItemId] = clampedQty;
+    this.cartService.updateQuantity(cartItemId, clampedQty).subscribe({
+      next: response => {
+        console.log('Update quantity response:', response);
+        this.loadCart();
+      },
       error: err => {
+        console.error('Update quantity error:', err);
         const fieldErrors = err.error?.feildErrors ?? [];
         if (fieldErrors.length) {
           alert('Cannot update cart item: ' + JSON.stringify(fieldErrors));
