@@ -16,4 +16,9 @@ export class NavbarComponent {
     get isLoggedIn(): boolean {
         return this.authService.getUserId() !== null;
     }
+
+    logout() {
+        this.authService.logout();
+    }
+
 }

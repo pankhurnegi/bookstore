@@ -9,8 +9,8 @@
         <input formControlName="email" type="email" />
     </div>
     <div>
-        <label>Address:</label>
-        <textarea formControlName="address"></textarea>
+        <label for="password">Password:</label>
+        <input id="password" type="password" formControlName="password" />
     </div>
     <button type="submit" [disabled]="profileForm.invalid">Update Profile</button>
 </form>

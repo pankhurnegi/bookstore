@@ -2,8 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Product, ProductsService } from './products.service';
 import { CartService } from '../cart/cart.service';
-import { AuthService } from '../shared/auth.service';  // Import AuthService
-
+import { AuthService } from '../shared/auth.service';
 @Component({
   selector: 'app-products',
   standalone: true,
@@ -28,6 +27,7 @@ export class Products implements OnInit {
     this.productsService.getProducts().subscribe({
       next: products => {
         this.products = products;
+        this.currentPage = 1;        // Reset to first page when products load
         this.loading = false;
       },
       error: err => {
@@ -44,11 +44,40 @@ export class Products implements OnInit {
     this.cartService.addToCart(this.userId, productId, 1).subscribe({
       next: item => {
         alert('Item added to cart!');
-        // Optionally refresh cart view or cart badge here
       },
       error: err => {
         alert('Cannot add to cart: ' + (err.error?.message || err.message));
       }
     });
+  }
+
+  // Number of books per page (2 rows x 4 columns = 8)
+  booksPerPage = 8;
+  currentPage = 1;
+
+  // Compute total pages
+  get totalPages(): number {
+    return Math.ceil(this.products.length / this.booksPerPage);
+  }
+
+  // Get products for current page
+  get paginatedProducts() {
+    const startIndex = (this.currentPage - 1) * this.booksPerPage;
+    return this.products.slice(startIndex, startIndex + this.booksPerPage);
+  }
+
+  // Navigate pages
+  goToPage(page: number) {
+    if (page >= 1 && page <= this.totalPages) {
+      this.currentPage = page;
+    }
+  }
+
+  goToNext() {
+    this.goToPage(this.currentPage + 1);
+  }
+
+  goToPrevious() {
+    this.goToPage(this.currentPage - 1);
   }
 }

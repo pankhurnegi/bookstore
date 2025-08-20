@@ -10,6 +10,7 @@ import { AuthService } from '../shared/auth.service';
     standalone: true,
     imports: [CommonModule, ReactiveFormsModule],
     templateUrl: './delivery-payment.html',
+    styleUrls: ['./delivery-payment.css']
 })
 export class DeliveryPayment {
     orderForm: FormGroup;

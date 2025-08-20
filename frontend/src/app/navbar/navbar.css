@@ -1,61 +1,58 @@
 nav {
-    background-color: #1e40af;
-    /* Indigo-800 */
-    padding: 0.5rem 1rem;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    box-shadow: 0 2px 4px rgb(0 0 0 / 0.1);
+    background: #1B3C53;
+    padding: 1rem 2rem;
+    border-radius: 0 0 16px 16px;
+    box-shadow: 0 4px 20px rgba(27, 60, 83, 0.15);
 }
 
-nav a {
-    color: #e0e7ff;
-    /* Indigo-200 */
+.left-nav a,
+.right-nav a {
+    color: #F9F3EF;
     text-decoration: none;
-    margin: 0 0.75rem;
-    font-weight: 600;
-    transition: color 0.3s ease;
-}
-
-nav a:hover,
-nav a.router-link-active {
-    color: #fff;
-    /* white */
-    border-bottom: 2px solid #ffffffaa;
-}
-
-nav button {
-    background-color: transparent;
-    border: 2px solid #e0e7ff;
-    color: #e0e7ff;
-    padding: 0.3rem 0.75rem;
+    margin: 0 1rem;
+    font-weight: 500;
+    font-size: 1rem;
+    padding-bottom: 4px;
+    border-bottom: 2px solid transparent;
     border-radius: 4px;
+    transition: color 0.2s, border-bottom 0.2s;
+}
+
+.left-nav a:hover,
+.right-nav a:hover,
+.left-nav a.active,
+.right-nav a.active {
+    color: #D2C1B6;
+    border-bottom: 2px solid #456882;
+}
+
+.left-nav {
+    display: flex;
+    align-items: center;
+}
+
+.right-nav {
+    display: flex;
+    align-items: center;
+}
+
+button {
+    background: #456882;
+    color: #F9F3EF;
+    border: none;
+    border-radius: 8px;
+    padding: 0.5rem 1.4rem;
+    margin-left: 1.5rem;
+    font-size: 1rem;
     cursor: pointer;
-    font-weight: 600;
-    transition: background-color 0.3s ease, color 0.3s ease;
+    transition: background 0.2s, box-shadow 0.2s;
+    box-shadow: 0 2px 8px rgba(27, 60, 83, 0.12);
 }
 
-nav button:hover {
-    background-color: #3b82f6;
-    /* Indigo-500 */
-    border-color: #3b82f6;
-    color: white;
-}
-
-/* Responsive: collapse nav links on small screens */
-@media (max-width: 600px) {
-    nav {
-        flex-direction: column;
-        align-items: flex-start;
-    }
-
-    nav a {
-        padding: 0.5rem 0;
-        margin: 0;
-    }
-
-    nav button {
-        margin-top: 0.5rem;
-    }
+button:hover {
+    background: #D2C1B6;
+    color: #1B3C53;
 }

@@ -33,10 +33,10 @@
     </div>
 
     <div>
-        <label for="pinCode">Postal Code:</label>
+        <label for="pinCode">Pincode:</label>
         <input id="pinCode" formControlName="pinCode" />
         <div *ngIf="orderForm.get('pinCode')?.invalid && orderForm.get('pinCode')?.touched" style="color:red;">
-            Postal Code is required and must be 5 or 6 digits.
+            Pincode is required and must be 5 or 6 digits.
         </div>
     </div>
 

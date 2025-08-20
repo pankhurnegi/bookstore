@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Observable, tap, switchMap } from 'rxjs';
+import { Router } from '@angular/router';
 
 interface RegisterRequest {
     username: string;
@@ -28,7 +29,7 @@ export class AuthService {
     private apiUrl = 'http://localhost:3000/auth';
     private _user: User | null = null;
 
-    constructor(private http: HttpClient) { }
+    constructor(private http: HttpClient, private router: Router) { }
 
     register(data: RegisterRequest): Observable<any> {
         return this.http.post<any>(`${this.apiUrl}/register`, data);
@@ -77,16 +78,14 @@ export class AuthService {
         localStorage.removeItem('access_token');
         localStorage.removeItem('user');
         this._user = null;
+        this.router.navigate(['/login']);  // Redirect to login page after logout
     }
 
-    // update profile
-
     getUserProfile(userId: number) {
-        return this.http.get<User>(`${this.apiUrl}/users/${userId}`); // adapt to your backend API
+        return this.http.get<User>(`${this.apiUrl}/users/${userId}`);
     }
 
     updateUserProfile(profileData: any) {
         return this.http.put(`${this.apiUrl}/users/profile`, profileData);
     }
-
 }

@@ -1,9 +1,10 @@
-<h2>Book List</h2>
+<h2>Books</h2>
 
 <div *ngIf="loading">Loading...</div>
 <div *ngIf="!loading && products.length === 0">No books found.</div>
-<div *ngIf="!loading && products.length > 0">
-    <div *ngFor="let product of products" class="book">
+
+<div *ngIf="!loading && paginatedProducts.length > 0" class="products-grid">
+    <div *ngFor="let product of paginatedProducts" class="book">
         <h3>{{ product.name }}</h3>
         <img *ngIf="product.imageUrl" [src]="product.imageUrl" alt="{{ product.name }}" class="book-image" />
         <p>{{ product.description }}</p>
@@ -18,6 +19,15 @@
         </p>
 
         <button (click)="addToCart(product.id)" [disabled]="!product.available">Add to Cart</button>
-        <hr />
     </div>
+</div>
+<div class="pagination" *ngIf="totalPages > 1">
+    <button (click)="goToPrevious()" [disabled]="currentPage === 1">Previous</button>
+
+    <button *ngFor="let page of [].constructor(totalPages); let i = index" (click)="goToPage(i + 1)"
+        [class.active]="currentPage === (i + 1)">
+        {{ i + 1 }}
+    </button>
+
+    <button (click)="goToNext()" [disabled]="currentPage === totalPages">Next</button>
 </div>

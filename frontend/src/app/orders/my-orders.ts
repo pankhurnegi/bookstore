@@ -8,6 +8,7 @@ import { AuthService } from '../shared/auth.service';
     standalone: true,
     imports: [CommonModule],
     templateUrl: './my-orders.html',
+    styleUrls: ['./my-orders.css']
 })
 export class MyOrders implements OnInit {
     orders: any[] = [];

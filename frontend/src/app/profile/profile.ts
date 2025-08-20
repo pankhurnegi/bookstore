@@ -15,6 +15,7 @@ interface ProfileFormType {
     standalone: true,
     imports: [CommonModule, ReactiveFormsModule],
     templateUrl: './profile.html',
+    styleUrls: ['./profile.css']
 })
 export class Profile implements OnInit {
     profileForm: FormGroup<ProfileFormType>;
@@ -61,4 +62,7 @@ export class Profile implements OnInit {
             });
         }
     }
+
+
+    
 }
