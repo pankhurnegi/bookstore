@@ -25,7 +25,7 @@ bootstrapApplication(AppComponent, {
             { path: 'login', component: Login },
             { path: 'products', component: Products },
             { path: 'cart', component: Cart },
-            { path: '', redirectTo: '/login', pathMatch: 'full' },
+            { path: '', redirectTo: '/products', pathMatch: 'full' },
             { path: 'delivery-payment', component: DeliveryPayment },
             { path: 'my-orders', component: MyOrders },
             { path: 'profile', component: Profile },

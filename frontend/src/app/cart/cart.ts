@@ -37,7 +37,6 @@ export class Cart implements OnInit {
       next: response => {
         this.cartItems = response.data ?? [];
         console.log('Loaded cart items:', this.cartItems);
-        // Sync quantityInputs with cartItems
         this.quantityInputs = {};
         for (const item of this.cartItems) {
           this.quantityInputs[item.id] = item.quantity;
