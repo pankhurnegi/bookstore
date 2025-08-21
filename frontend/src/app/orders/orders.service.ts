@@ -16,4 +16,7 @@ export class OrdersService {
     getUserOrders(userId: number): Observable<any> {
         return this.http.get<any>(`${this.apiUrl}?userId=${userId}`);
     }
+    cancelOrder(orderId: number) {
+        return this.http.delete(`${this.apiUrl}/${orderId}`);
+    }
 }

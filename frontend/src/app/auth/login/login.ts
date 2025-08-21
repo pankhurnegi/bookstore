@@ -24,6 +24,10 @@ export class Login implements OnInit {
   ) { }
 
   ngOnInit(): void {
+    if (this.authService.getUserId()) {
+      this.router.navigate(['/products']);
+      return;
+    }
     this.loginForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
       password: ['', Validators.required],

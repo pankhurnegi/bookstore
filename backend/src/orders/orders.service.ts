@@ -55,4 +55,13 @@ export class OrdersService {
 
 
 
+    async cancelOrder(orderId: number): Promise<{ success: boolean }> {
+        const order = await this.orderModel.findByPk(orderId);
+        if (!order) {
+            throw new BadRequestException('Order not found');
+        }
+        await this.orderItemModel.destroy({ where: { orderId } });
+        await this.orderModel.destroy({ where: { id: orderId } });
+        return { success: true };
+    }
 }

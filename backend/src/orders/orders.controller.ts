@@ -1,4 +1,4 @@
-import { Controller, Post, Body, Get, Query, UseGuards, Req } from '@nestjs/common';
+import { Controller, Post, Body, Get, Query, UseGuards, Req, Delete, Param } from '@nestjs/common';
 import { OrdersService } from './orders.service';
 import { CreateOrderDto } from './create-order.dto';
 
@@ -14,5 +14,9 @@ export class OrdersController {
     @Get()
     async getUserOrders(@Query('userId') userId: number) {
         return this.ordersService.findOrdersByUserId(userId);
+    }
+    @Delete(':id')
+    async cancelOrder(@Param('id') id: number) {
+        return this.ordersService.cancelOrder(id);
     }
 }

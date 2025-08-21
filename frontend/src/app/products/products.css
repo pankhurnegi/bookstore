@@ -32,8 +32,8 @@
     align-items: center;
 }
 
-.products-bg {
-    background: url('c:/Users/User/Downloads/shiromani-kant-tHKlDb5EzN4-unsplash.jpg') no-repeat center center fixed;
+::ng-deep body {
+    background: url('c:/Users/User/Downloads/shiromani-kant-tHKlDb5EzN4-unsplash.jpg') repeat center;
     background-size: cover;
     min-height: 100vh;
     width: 100%;
@@ -41,7 +41,7 @@
     top: 0;
     left: 0;
     z-index: -1;
-    opacity: 0.5;
+    /* opacity: 0.5; */
 }
 
 
@@ -152,5 +152,5 @@
 h2 {
     display: flex;
     justify-content: center;
-    color: black;
+    color: whitesmoke;
 }

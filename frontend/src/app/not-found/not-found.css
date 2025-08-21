@@ -1,0 +1,48 @@
+.not-found-container {
+    background: #F9F3EF;
+    border-radius: 18px;
+    box-shadow: 0 6px 22px rgba(27, 60, 83, 0.09);
+    max-width: 480px;
+    margin: 4rem auto;
+    padding: 3rem 2rem;
+    text-align: center;
+}
+
+.not-found-container h1 {
+    font-size: 4rem;
+    color: #456882;
+    margin-bottom: 0.5rem;
+    font-weight: 700;
+}
+
+.not-found-container h2 {
+    font-size: 2rem;
+    color: #1B3C53;
+    margin-bottom: 1rem;
+    font-weight: 600;
+}
+
+.not-found-container p {
+    color: #456882;
+    font-size: 1.1rem;
+    margin-bottom: 2rem;
+}
+
+.back-home-btn {
+    background: linear-gradient(90deg, #456882 0%, #D2C1B6 100%);
+    color: #fff;
+    border: none;
+    border-radius: 25px;
+    padding: 12px 32px;
+    font-size: 1.1rem;
+    font-weight: 700;
+    box-shadow: 0 2px 8px rgba(27, 60, 83, 0.10);
+    cursor: pointer;
+    text-decoration: none;
+    transition: background 0.3s, transform 0.2s;
+}
+
+.back-home-btn:hover {
+    background: linear-gradient(90deg, #D2C1B6 0%, #456882 100%);
+    transform: translateY(-2px) scale(1.04);
+}

@@ -12,6 +12,7 @@ import { Cart } from './app/cart/cart';
 import { DeliveryPayment } from './app/orders/delivery-payment';
 import { MyOrders } from './app/orders/my-orders';
 import { Profile } from './app/profile/profile';
+import { NotFoundComponent } from './app/not-found/not-found';
 bootstrapApplication(AppComponent, {
     providers: [
         importProvidersFrom(
@@ -27,9 +28,8 @@ bootstrapApplication(AppComponent, {
             { path: '', redirectTo: '/login', pathMatch: 'full' },
             { path: 'delivery-payment', component: DeliveryPayment },
             { path: 'my-orders', component: MyOrders },
-            { path: 'profile', component: Profile }
-
-
+            { path: 'profile', component: Profile },
+            { path: '**', component: NotFoundComponent }
         ])
     ],
 });

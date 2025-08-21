@@ -2,20 +2,27 @@
 
 <div *ngIf="orders.length === 0">No orders found.</div>
 
-<div *ngFor="let order of orders" style="border: 1px solid #ccc; padding: 10px; margin-bottom: 10px;">
+<div *ngFor="let order of orders" class="order-card">
     <h3>Order ID: {{ order.id }}</h3>
-    <p>Address: {{ order.addressLine1 }}, {{ order.city }}, {{ order.state }}, {{ order.pinCode }}</p>
-    <p>Payment Method: {{ order.paymentMethod }}</p>
-    <p>Order Date: {{ order.orderDate | date }}</p>
+    <hr class="dashed-hr" />
+    <p><strong>Address:</strong> {{ order.addressLine1 }}, {{ order.city }}, {{ order.state }}, {{ order.pinCode }}</p>
+    <hr class="dashed-hr" />
+    <p><strong>Payment Method:</strong> {{ order.paymentMethod }}</p>
+    <hr class="dashed-hr" />
+    <p><strong>Order Date:</strong> {{ order.orderDate | date }}</p>
+    <hr class="dashed-hr" />
 
     <h4>Items:</h4>
-    <ul>
-        <ul>
-            <li *ngFor="let item of order.orderItems">
-                Product: {{ item.product?.name || 'Unknown' }} — Quantity: {{ item.quantity }} — Price: ₹{{ item.price
-                }}
-            </li>
-        </ul>
-
+    <ul class="order-items-list">
+        <li *ngFor="let item of order.orderItems">
+            <span class="order-item-name">{{ item.product?.name || 'Unknown' }}</span>
+            <span class="order-item-detail">Qty: {{ item.quantity }}</span>
+            <span class="order-item-detail">Price: ₹{{ item.price || item.product?.price }}</span>
+        </li>
     </ul>
+    <div class="order-total">
+        <strong>Total Price:</strong>
+        ₹{{ getTotalPrice(order) }}
+    </div>
+    <button class="cancel-order-btn" (click)="cancelOrder(order.id)">Cancel Order</button>
 </div>

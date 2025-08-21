@@ -21,7 +21,7 @@ export class UsersController {
         @Body() updateUserDto: UpdateUserDto,
         @Req() req: any
     ) {
-        // Check for unique email and username
+        
         if (updateUserDto.email) {
             const existingEmail = await this.usersService.getUserByEmail(updateUserDto.email);
             if (existingEmail && existingEmail.id !== Number(id)) {
@@ -34,7 +34,7 @@ export class UsersController {
                 return { statusCode: 400, message: 'Username already in use' };
             }
         }
-        // Update profile
+        
         const updatedUser = await this.usersService.updateProfile(id, updateUserDto);
         return { statusCode: 200, message: 'Profile updated', data: updatedUser };
     }

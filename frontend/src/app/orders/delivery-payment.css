@@ -1,3 +1,32 @@
+/* Dashed line after each field */
+.dashed-hr {
+    border: none;
+    border-top: 2px dashed #456882;
+    margin: 1rem 0 0.5rem 0;
+    opacity: 0.4;
+}
+
+/* Modern order button */
+.modern-order-btn {
+    background: linear-gradient(90deg, #456882 0%, #D2C1B6 100%);
+    color: #fff;
+    border: none;
+    border-radius: 25px;
+    padding: 12px 32px;
+    font-size: 1.1rem;
+    font-weight: 700;
+    box-shadow: 0 2px 8px rgba(27, 60, 83, 0.10);
+    cursor: pointer;
+    transition: background 0.3s, transform 0.2s;
+    margin-top: 2rem;
+}
+
+.modern-order-btn:hover:not(:disabled) {
+    background: linear-gradient(90deg, #D2C1B6 0%, #456882 100%);
+    transform: translateY(-2px) scale(1.04);
+    box-shadow: 0 4px 16px rgba(27, 60, 83, 0.15);
+}
+
 h2 {
     color: #1B3C53;
     font-size: 2rem;

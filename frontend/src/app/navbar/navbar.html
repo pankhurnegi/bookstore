@@ -7,7 +7,7 @@
     </div>
 
     <div class="right-nav">
-        <a *ngIf="authService.getUserId()" routerLink="/profile" routerLinkActive="active">PROFILE</a>
+        <!-- <a *ngIf="authService.getUserId()" routerLink="/profile" routerLinkActive="active">PROFILE</a> -->
         <a *ngIf="authService.getUserId()" routerLink="/products" routerLinkActive="active">STORE</a>
 
         <a *ngIf="!authService.getUserId()" routerLink="/signup" routerLinkActive="active">SIGN UP</a>

@@ -9,11 +9,13 @@
             style="color:red;">
             Address Line 1 is required.
         </div>
+        <hr class="dashed-hr" />
     </div>
 
     <div>
         <label for="addressLine2">Address Line 2:</label>
         <input id="addressLine2" formControlName="addressLine2" />
+        <hr class="dashed-hr" />
     </div>
 
     <div>
@@ -22,6 +24,7 @@
         <div *ngIf="orderForm.get('city')?.invalid && orderForm.get('city')?.touched" style="color:red;">
             City is required.
         </div>
+        <hr class="dashed-hr" />
     </div>
 
     <div>
@@ -30,6 +33,7 @@
         <div *ngIf="orderForm.get('state')?.invalid && orderForm.get('state')?.touched" style="color:red;">
             State is required.
         </div>
+        <hr class="dashed-hr" />
     </div>
 
     <div>
@@ -38,6 +42,7 @@
         <div *ngIf="orderForm.get('pinCode')?.invalid && orderForm.get('pinCode')?.touched" style="color:red;">
             Pincode is required and must be 5 or 6 digits.
         </div>
+        <hr class="dashed-hr" />
     </div>
 
     <div>
@@ -50,7 +55,8 @@
             style="color:red;">
             Payment method is required.
         </div>
+        <hr class="dashed-hr" />
     </div>
 
-    <button type="submit" [disabled]="orderForm.invalid">Place Order</button>
+    <button type="submit" [disabled]="orderForm.invalid" class="modern-order-btn">Place Order</button>
 </form>
