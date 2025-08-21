@@ -43,7 +43,6 @@ export class Profile implements OnInit {
                 this.profileForm.patchValue({
                     username: user.username,
                     email: user.email,
-                    // password omitted to avoid null assignment error
                 });
             },
             error: err => {
@@ -61,7 +60,6 @@ export class Profile implements OnInit {
         if (this.profileForm.valid) {
             const updateData = this.profileForm.value;
 
-            // Remove password field if empty to avoid overwriting with null
             if (!updateData.password) {
                 delete updateData.password;
             }
