@@ -90,10 +90,11 @@ export class AuthService {
     }
 
     getUserProfile(userId: number) {
-        return this.http.get<User>(`${this.apiUrl}/users/${userId}`);
+        const token = localStorage.getItem('access_token');
+        return this.http.get<User>(`http://localhost:3000/users/${userId}`, {
+            headers: { Authorization: `Bearer ${token}` }
+        })
+
     }
 
-    updateUserProfile(profileData: any) {
-        return this.http.put(`${this.apiUrl}/users/profile`, profileData);
-    }
 }

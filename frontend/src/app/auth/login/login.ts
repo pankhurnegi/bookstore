@@ -32,7 +32,7 @@ export class Login implements OnInit {
       email: ['', [Validators.required, Validators.email]],
       password: ['', Validators.required],
     });
-  }
+  }     
 
   onSubmit() {
     if (this.loginForm.invalid) {

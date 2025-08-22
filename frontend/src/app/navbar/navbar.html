@@ -2,7 +2,7 @@
     <div class="left-nav">
         <span *ngIf="authService.getUsername()">{{ authService.getUsername() }}</span>
 
-        <div class="logo">Books<span class="next">CART</span></div>
+        <div (click)="goToProducts()" style="cursor: pointer;">BooksCART</div>
 
     </div>
 

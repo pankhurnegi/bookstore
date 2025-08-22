@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators, ReactiveFormsModule, FormGroup, FormControl } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { AuthService } from '../shared/auth.service';
+import { ProfileService } from './profile.service';
 import { Router } from '@angular/router';
 
 interface ProfileFormType {
@@ -23,6 +24,7 @@ export class Profile implements OnInit {
     constructor(
         private fb: FormBuilder,
         private authService: AuthService,
+        private profileService: ProfileService,
         private router: Router
     ) {
         this.profileForm = this.fb.group({
@@ -64,9 +66,15 @@ export class Profile implements OnInit {
                 delete updateData.password;
             }
 
-            this.authService.updateUserProfile(updateData).subscribe({
+            const userId = this.authService.getUserId();
+            if (userId === null) {
+                alert('User not found.');
+                return;
+            }
+            const token = localStorage.getItem('access_token') || '';
+            this.profileService.updateUserProfile(userId, updateData, token).subscribe({
                 next: () => alert('Profile updated successfully!'),
-                error: err => {
+                error: (err: any) => {
                     const fieldErrors = err.error?.feildErrors ?? [];
                     if (fieldErrors.length) {
                         alert('Update failed: ' + JSON.stringify(fieldErrors));
