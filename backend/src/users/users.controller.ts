@@ -2,6 +2,7 @@ import { Controller, Put, Body, Param, UseGuards, Req, Get } from '@nestjs/commo
 import { UsersService } from './users.service';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { JwtAuthGuard } from '../auth/jwt-auth.guard';
+import { ParseIntPipe } from '@nestjs/common';
 
 @Controller('users')
 export class UsersController {
@@ -9,7 +10,7 @@ export class UsersController {
 
     @UseGuards(JwtAuthGuard)
     @Get(':id')
-    async getUserProfile(@Param('id') id: number) {
+    async getUserProfile(@Param('id', ParseIntPipe) id: number) {
         const user = await this.usersService.getUserById(id);
         return { statusCode: 200, data: user };
     }
