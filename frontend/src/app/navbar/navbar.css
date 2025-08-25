@@ -4,7 +4,7 @@ nav {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    background: #1B3C53;
+    background: var(--color-background);
     font-family: 'Oswald', Arial, sans-serif;
     padding: 1rem 2rem;
     border-radius: 0 0 16px 16px;
@@ -15,7 +15,7 @@ nav,
 .left-nav a,
 .right-nav a,
 .left-nav span {
-    color: #F9F3EF;
+    color: var(--color-primary);
     text-decoration: none;
     margin: 0 1rem;
     font-weight: 500;
@@ -31,7 +31,7 @@ nav,
 .right-nav a:hover,
 .left-nav a.active,
 .right-nav a.active {
-    color: #D2C1B6;
+    color: var(--color-accent);
     border-bottom: 2px solid #456882;
 }
 
@@ -46,8 +46,8 @@ nav,
 }
 
 button {
-    background: #456882;
-    color: #F9F3EF;
+    background: var(--color-accent);
+    color: white;
     border: none;
     border-radius: 8px;
     padding: 0.5rem 1.4rem;
@@ -64,14 +64,14 @@ button:hover {
 }
 
 .logo {
-    font-size: 34px;
+    font-size: 90px;
     font-weight: bold;
     white-space: nowrap;
 
 }
 
 .logo .next {
-    font-size: 28px;
+    font-size: 58px;
     color:
         #D2C1B6;
     margin-left: 0;

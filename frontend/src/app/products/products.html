@@ -13,7 +13,7 @@
         <p class="label">Category: <span class="value">{{ product.category }}</span></p>
         <p class="label">Price: <span class="value">₹{{ product.price }}</span></p>
         <p class="label">
-            Status:
+
             <span [ngClass]="{'available': product.available, 'unavailable': !product.available}" class="value">
                 {{ product.available ? 'Available' : 'Out of Stock' }}
             </span>

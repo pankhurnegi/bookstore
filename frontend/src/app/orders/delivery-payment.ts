@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { OrdersService } from './orders.service';
+import { CartService } from '../cart/cart.service';
 import { Router } from '@angular/router';
 import { AuthService } from '../shared/auth.service';
 
@@ -20,6 +21,7 @@ export class DeliveryPayment {
     constructor(
         private fb: FormBuilder,
         private ordersService: OrdersService,
+        private cartService: CartService,
         private router: Router,
         private authService: AuthService
     ) {
@@ -45,6 +47,7 @@ export class DeliveryPayment {
             this.ordersService.createOrder(orderData).subscribe({
                 next: (response) => {
                     alert('Order placed successfully!');
+                    this.cartService.resetCartCount();
                     this.router.navigate(['/products']);
                 },
                 error: (err) => {

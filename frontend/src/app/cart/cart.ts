@@ -21,7 +21,9 @@ export class Cart implements OnInit {
     private cartService: CartService,
     private authService: AuthService,
     private router: Router
-  ) { }
+  ) {
+
+  }
 
   ngOnInit() {
     this.userId = this.authService.getUserId();
@@ -71,9 +73,9 @@ export class Cart implements OnInit {
     const clampedQty = Math.max(1, Math.min(quantity, 5));
     console.log('Updating cart item', cartItemId, 'to quantity', clampedQty);
     this.quantityInputs[cartItemId] = clampedQty;
-    this.cartService.updateQuantity(cartItemId, clampedQty).subscribe({
+    this.cartService.updateQuantity(cartItemId, clampedQty, this.userId!).subscribe({
       next: response => {
-        // this.loadCart();
+        this.loadCart();
       },
       error: err => {
         const fieldErrors = err.error?.feildErrors ?? [];
@@ -87,7 +89,7 @@ export class Cart implements OnInit {
   }
 
   removeFromCart(cartItemId: number) {
-    this.cartService.removeFromCart(cartItemId).subscribe({
+    this.cartService.removeFromCart(cartItemId, this.userId!).subscribe({
       next: response => { this.loadCart(); },
       error: err => {
         const fieldErrors = err.error?.feildErrors ?? [];
@@ -112,6 +114,7 @@ export class Cart implements OnInit {
       alert('Your cart is empty. Add items before placing an order.');
       return;
     }
+    // Do not reset cart count here; only navigate to delivery-payment
     this.router.navigate(['/delivery-payment']);
   }
 
