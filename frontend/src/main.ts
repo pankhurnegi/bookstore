@@ -1,6 +1,6 @@
 import { bootstrapApplication } from '@angular/platform-browser';
 import { AppComponent } from './app/app';
-import { importProvidersFrom } from '@angular/core';
+import { importProvidersFrom, isDevMode } from '@angular/core';
 import { HttpClientModule } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ToastrModule } from 'ngx-toastr';
@@ -13,6 +13,7 @@ import { DeliveryPayment } from './app/orders/delivery-payment';
 import { MyOrders } from './app/orders/my-orders';
 import { Profile } from './app/profile/profile';
 import { NotFoundComponent } from './app/not-found/not-found';
+import { provideServiceWorker } from '@angular/service-worker';
 bootstrapApplication(AppComponent, {
     providers: [
         importProvidersFrom(
@@ -30,6 +31,9 @@ bootstrapApplication(AppComponent, {
             { path: 'my-orders', component: MyOrders },
             { path: 'profile', component: Profile },
             { path: '**', component: NotFoundComponent }
-        ])
+        ]), provideServiceWorker('ngsw-worker.js', {
+            enabled: !isDevMode(),
+            registrationStrategy: 'registerWhenStable:30000'
+          })
     ],
 });
