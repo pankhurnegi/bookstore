@@ -1,7 +1,16 @@
 <div class="products-bg"></div>
-<h2>Stories Delivered, Just a Click Away...</h2>
+<!-- <h2>Stories Delivered, Just a Click Away...</h2> -->
 
-<div *ngIf="loading">Loading...</div>
+<div *ngIf="loading" class="products-grid">
+    <div class="book skeleton" *ngFor="let s of [].constructor(8)">
+        <div class="skeleton-img"></div>
+        <div class="skeleton-title"></div>
+        <div class="skeleton-text"></div>
+        <div class="skeleton-text short"></div>
+        <div class="skeleton-text short"></div>
+        <div class="skeleton-btn"></div>
+    </div>
+</div>
 <div *ngIf="!loading && products.length === 0">No books found.</div>
 
 <div *ngIf="!loading && paginatedProducts.length > 0" class="products-grid">

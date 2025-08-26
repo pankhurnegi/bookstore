@@ -14,6 +14,7 @@ export class Products implements OnInit {
   products: Product[] = [];
   loading = true;
   userId: number | null;
+  totalPages = 1;
 
   constructor(
     private productsService: ProductsService,
@@ -24,20 +25,29 @@ export class Products implements OnInit {
   }
 
   ngOnInit(): void {
-    this.productsService.getProducts().subscribe({
-      next: response => {
-        this.products = response.data ?? [];
-        this.currentPage = 1;
-        this.loading = false;
-      },
-      error: err => {
-        this.loading = false;
-        const fieldErrors = err.error?.feildErrors ?? [];
-        if (fieldErrors.length) {
-          alert('Field errors: ' + JSON.stringify(fieldErrors));
+    this.loadProducts(1);
+  }
+
+  loadProducts(page: number) {
+    this.loading = true;
+    setTimeout(() => {
+      this.productsService.getProducts(page, this.booksPerPage).subscribe({
+        next: response => {
+          const paginated = Array.isArray(response.data) ? response.data[0] : {};
+          this.products = paginated.data ?? [];
+          this.totalPages = paginated.totalPages ?? 1;
+          this.currentPage = paginated.page ?? page;
+          this.loading = false;
+        },
+        error: err => {
+          this.loading = false;
+          const fieldErrors = err.error?.feildErrors ?? [];
+          if (fieldErrors.length) {
+            alert('Field errors: ' + JSON.stringify(fieldErrors));
+          }
         }
-      }
-    });
+      });
+    }, 2000);
   }
 
   addToCart(productId: number) {
@@ -64,21 +74,15 @@ export class Products implements OnInit {
   booksPerPage = 8;
   currentPage = 1;
 
-  // Compute total pages
-  get totalPages(): number {
-    return Math.ceil(this.products.length / this.booksPerPage);
-  }
-
-  // Get products for current page
+  // Products are already paginated from backend
   get paginatedProducts() {
-    const startIndex = (this.currentPage - 1) * this.booksPerPage;
-    return this.products.slice(startIndex, startIndex + this.booksPerPage);
+    return this.products;
   }
 
   // Navigate pages
   goToPage(page: number) {
     if (page >= 1 && page <= this.totalPages) {
-      this.currentPage = page;
+      this.loadProducts(page);
     }
   }
 

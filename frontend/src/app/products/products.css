@@ -1,7 +1,66 @@
+.skeleton {
+    background: #f3f3f3;
+    border-radius: 16px;
+    padding: 20px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+    min-width: 220px;
+    min-height: 340px;
+}
+
+.skeleton-img {
+    width: 120px;
+    height: 160px;
+    background: linear-gradient(90deg, #e0e0e0 25%, #f3f3f3 50%, #e0e0e0 75%);
+    border-radius: 8px;
+    animation: skeleton-loading 1.2s infinite linear;
+}
+
+.skeleton-title {
+    width: 80%;
+    height: 22px;
+    background: #e0e0e0;
+    border-radius: 6px;
+    animation: skeleton-loading 1.2s infinite linear;
+}
+
+.skeleton-text {
+    width: 90%;
+    height: 16px;
+    background: #e0e0e0;
+    border-radius: 6px;
+    animation: skeleton-loading 1.2s infinite linear;
+}
+
+.skeleton-text.short {
+    width: 60%;
+}
+
+.skeleton-btn {
+    width: 60%;
+    height: 32px;
+    background: #e0e0e0;
+    border-radius: 16px;
+    animation: skeleton-loading 1.2s infinite linear;
+}
+
+@keyframes skeleton-loading {
+    0% {
+        background-position: -200px 0;
+    }
+
+    100% {
+        background-position: 200px 0;
+    }
+}
+
 /* Typing animation for h2 */
 /* Typing animation for h2: each letter appears one by one */
 /* Typing animation for h2: each letter appears one by one, stays in place */
-h2 {
+/* h2 {
     overflow: hidden;
     white-space: nowrap;
     border-right: 3px solid #333;
@@ -9,7 +68,7 @@ h2 {
         typing 2.5s steps(34, end) forwards,
         blink-caret 0.7s step-end infinite;
     width: 26ch;
-}
+} */
 
 @keyframes typing {
     from {
@@ -76,7 +135,6 @@ h2 {
     top: 0;
     left: 0;
     z-index: -1;
-    /* opacity: 0.5; */
 }
 
 
@@ -85,7 +143,7 @@ h2 {
     grid-template-columns: repeat(4, 1fr);
     gap: 2rem;
     max-width: 1200px;
-    margin: 0 auto 3rem;
+    margin: 1rem auto 3rem;
     padding: 0 1rem;
     align-items: stretch;
 }

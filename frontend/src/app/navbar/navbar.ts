@@ -34,7 +34,6 @@ export class NavbarComponent {
     }
 
     updateShowCartCount() {
-        // Show cart count on all pages, including delivery-payment
         this.showCartCount = true;
     }
 

@@ -1,5 +1,5 @@
 // src/products/products.controller.ts
-import { Controller, Get, Post, Body, Param, UseGuards } from '@nestjs/common';
+import { Controller, Get, Post, Body, Param, Query, UseGuards } from '@nestjs/common';
 import { ProductsService } from './products.service';
 import { CreateProductDto } from './dto/product.dto';
 import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
@@ -14,7 +14,10 @@ export class ProductsController {
     }
 
     @Get()
-    findAll() {
+    findAll(@Query('page') page?: string, @Query('limit') limit?: string) {
+        if (page && limit) {
+            return this.productsService.findPaginated(Number(page), Number(limit));
+        }
         return this.productsService.findAll();
     }
 

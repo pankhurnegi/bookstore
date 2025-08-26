@@ -25,7 +25,7 @@ export class CartService {
         const token = localStorage.getItem('access_token');
         const headers = new HttpHeaders(token ? { Authorization: `Bearer ${token}` } : {});
         return this.http.post(this.apiUrl, { userId, productId, quantity }, { headers }).pipe(
-            // After adding, fetch cart and update count
+
             switchMap(() => this.getUserCart(userId)),
             tap((response: any) => {
                 this.cartCountSubject.next((response.data ?? []).length);
