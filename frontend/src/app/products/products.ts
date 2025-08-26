@@ -30,24 +30,22 @@ export class Products implements OnInit {
 
   loadProducts(page: number) {
     this.loading = true;
-    setTimeout(() => {
-      this.productsService.getProducts(page, this.booksPerPage).subscribe({
-        next: response => {
-          const paginated = Array.isArray(response.data) ? response.data[0] : {};
-          this.products = paginated.data ?? [];
-          this.totalPages = paginated.totalPages ?? 1;
-          this.currentPage = paginated.page ?? page;
-          this.loading = false;
-        },
-        error: err => {
-          this.loading = false;
-          const fieldErrors = err.error?.feildErrors ?? [];
-          if (fieldErrors.length) {
-            alert('Field errors: ' + JSON.stringify(fieldErrors));
-          }
+    this.productsService.getProducts(page, this.booksPerPage).subscribe({
+      next: response => {
+        const paginated = Array.isArray(response.data) ? response.data[0] : {};
+        this.products = paginated.data ?? [];
+        this.totalPages = paginated.totalPages ?? 1;
+        this.currentPage = paginated.page ?? page;
+        this.loading = false;
+      },
+      error: err => {
+        this.loading = false;
+        const fieldErrors = err.error?.feildErrors ?? [];
+        if (fieldErrors.length) {
+          alert('Field errors: ' + JSON.stringify(fieldErrors));
         }
-      });
-    }, 2000);
+      }
+    });
   }
 
   addToCart(productId: number) {
