@@ -5,15 +5,8 @@ import { HttpClientModule } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ToastrModule } from 'ngx-toastr';
 import { provideRouter } from '@angular/router';
-import { Signup } from './app/auth/signup/signup';
-import { Login } from './app/auth/login/login';
-import { Products } from './app/products/products';
-import { Cart } from './app/cart/cart';
-import { DeliveryPayment } from './app/orders/delivery-payment';
-import { MyOrders } from './app/orders/my-orders';
-import { Profile } from './app/profile/profile';
-import { NotFoundComponent } from './app/not-found/not-found';
 import { provideServiceWorker } from '@angular/service-worker';
+
 bootstrapApplication(AppComponent, {
     providers: [
         importProvidersFrom(
@@ -22,18 +15,19 @@ bootstrapApplication(AppComponent, {
             ToastrModule.forRoot()
         ),
         provideRouter([
-            { path: 'signup', component: Signup },
-            { path: 'login', component: Login },
-            { path: 'products', component: Products },
-            { path: 'cart', component: Cart },
+            { path: 'signup', loadComponent: () => import('./app/auth/signup/signup').then(m => m.Signup) },
+            { path: 'login', loadComponent: () => import('./app/auth/login/login').then(m => m.Login) },
+            { path: 'products', loadComponent: () => import('./app/products/products').then(m => m.Products) },
+            { path: 'cart', loadComponent: () => import('./app/cart/cart').then(m => m.Cart) },
             { path: '', redirectTo: '/products', pathMatch: 'full' },
-            { path: 'delivery-payment', component: DeliveryPayment },
-            { path: 'my-orders', component: MyOrders },
-            { path: 'profile', component: Profile },
-            { path: '**', component: NotFoundComponent }
-        ]), provideServiceWorker('ngsw-worker.js', {
+            { path: 'delivery-payment', loadComponent: () => import('./app/orders/delivery-payment').then(m => m.DeliveryPayment) },
+            { path: 'my-orders', loadComponent: () => import('./app/orders/my-orders').then(m => m.MyOrders) },
+            { path: 'profile', loadComponent: () => import('./app/profile/profile').then(m => m.Profile) },
+            { path: '**', loadComponent: () => import('./app/not-found/not-found').then(m => m.NotFoundComponent) }
+        ]),
+        provideServiceWorker('ngsw-worker.js', {
             enabled: !isDevMode(),
             registrationStrategy: 'registerWhenStable:30000'
-          })
+        })
     ],
 });
